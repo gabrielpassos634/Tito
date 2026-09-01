@@ -1,188 +1,316 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistente de Moda - Catálogo e Chatbot</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaEng – Automação &amp; Mecatrônica</title>
     <style>
+        /* ----- RESET & BASE ----- */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
         body {
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            background: #f5f3f0;
-            color: #1e1e1e;
-            padding: 20px;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #f8fafc;
+            color: #0a1a2f;
+            line-height: 1.5;
+            scroll-behavior: smooth;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 20px;
         }
-        header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 2px solid #d4c9c0;
+
+        /* ----- MENU FIXO ----- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 26, 47, 0.92);
+            backdrop-filter: blur(8px);
+            padding: 12px 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.2);
         }
-        header h1 {
-            font-size: 2rem;
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        .logo span {
+            color: #6fc3df;
+        }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+            font-weight: 500;
+        }
+        .nav-links a {
+            color: #d1d9e6;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+        .nav-links a:hover {
+            color: #fff;
+            border-bottom-color: #6fc3df;
+        }
+        .nav-links a.cta-nav {
+            background: #6fc3df;
+            color: #0a1a2f;
+            padding: 6px 18px;
+            border-radius: 30px;
             font-weight: 600;
-            color: #2c3e50;
+            border-bottom: none;
         }
-        header p {
-            color: #7f8c8d;
+        .nav-links a.cta-nav:hover {
+            background: #4fa3bf;
+            color: #fff;
         }
-        .grid-2 {
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* ----- SEÇÕES COMUNS ----- */
+        section {
+            padding: 80px 0 60px;
+        }
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #0a1a2f;
+        }
+        .section-sub {
+            font-size: 1.1rem;
+            color: #3a4a5f;
+            max-width: 700px;
+            margin-bottom: 40px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ----- HERO ----- */
+        #hero {
+            padding-top: 140px;
+            padding-bottom: 100px;
+            background: linear-gradient(145deg, #0a1a2f 0%, #1c3b5a 100%);
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        #hero::after {
+            content: '';
+            position: absolute;
+            right: -10%;
+            top: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(111,195,223,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        #hero .container {
+            position: relative;
+            z-index: 2;
+        }
+        #hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+        }
+        #hero h1 span {
+            color: #6fc3df;
+        }
+        #hero p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            color: #cbdae9;
+            margin-bottom: 32px;
+        }
+        .btn-hero {
+            display: inline-block;
+            background: #6fc3df;
+            color: #0a1a2f;
+            padding: 16px 44px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: 0.3s;
+            box-shadow: 0 8px 24px rgba(111,195,223,0.3);
+        }
+        .btn-hero:hover {
+            background: #4fa3bf;
+            transform: scale(1.02);
+            box-shadow: 0 12px 32px rgba(111,195,223,0.4);
+        }
+
+        /* ----- QUEM SOMOS ----- */
+        #quem-somos {
+            background: #fff;
+        }
+        .quem-grid {
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .quem-grid .texto p {
+            font-size: 1.05rem;
+            color: #1e334a;
+            margin-bottom: 16px;
+        }
+        .quem-grid .valores {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .quem-grid .valores span {
+            background: #eaf4f9;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #0a1a2f;
+        }
+        .quem-grid .imagem {
+            background: #eaf4f9;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            font-size: 4rem;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1c3b5a;
+        }
+
+        /* ----- SOLUÇÕES ----- */
+        #solucoes {
+            background: #f1f6fa;
+        }
+        .solucoes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 30px;
-            margin-top: 30px;
+            margin-top: 20px;
         }
-        .card {
-            background: #ffffff;
+        .solucao-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px 24px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+            transition: 0.3s;
+            border: 1px solid #e1eaf0;
+            text-align: center;
+        }
+        .solucao-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 36px rgba(10,26,47,0.08);
+        }
+        .solucao-card .icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+        .solucao-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .solucao-card p {
+            color: #3a4a5f;
+            font-size: 0.95rem;
+        }
+
+        /* ----- DIFERENCIAL ----- */
+        #diferencial {
+            background: #fff;
+        }
+        .dif-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .dif-item {
+            background: #f8fafc;
             border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            padding: 24px;
-            margin-bottom: 24px;
-            border: 1px solid #eae4de;
+            padding: 28px 20px;
+            border-left: 5px solid #6fc3df;
         }
-        .card h2 {
+        .dif-item h4 {
             font-size: 1.2rem;
             font-weight: 600;
-            margin-bottom: 16px;
-            color: #2c3e50;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 8px;
+            margin-bottom: 6px;
         }
-        label {
-            display: block;
-            font-weight: 500;
-            margin: 10px 0 4px;
-            font-size: 0.9rem;
+        .dif-item p {
+            color: #3a4a5f;
         }
-        input, textarea, select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            background: #fafafa;
-            transition: 0.2s;
+
+        /* ----- FERRAMENTA (prompts adaptada) ----- */
+        #ferramenta {
+            background: #eef3f8;
+            padding: 60px 0;
         }
-        input:focus, textarea:focus, select:focus {
-            border-color: #a67c6b;
-            outline: none;
+        .ferramenta-wrapper {
             background: #fff;
-            box-shadow: 0 0 0 3px rgba(166,124,107,0.2);
+            border-radius: 28px;
+            padding: 30px 28px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.04);
         }
-        textarea {
-            resize: vertical;
-            min-height: 60px;
-        }
-        .row {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .row > * {
-            flex: 1;
-            min-width: 120px;
-        }
-        .btn {
-            background: #a67c6b;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 0.95rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .btn:hover {
-            background: #8b6556;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(166,124,107,0.3);
-        }
-        .btn-outline {
-            background: transparent;
-            color: #a67c6b;
-            border: 2px solid #a67c6b;
-        }
-        .btn-outline:hover {
-            background: #a67c6b;
-            color: white;
-        }
-        .btn-sm {
-            padding: 6px 14px;
-            font-size: 0.8rem;
-        }
-        .btn-danger {
-            background: #e74c3c;
-        }
-        .btn-danger:hover {
-            background: #c0392b;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-        th, td {
-            padding: 10px 8px;
-            border-bottom: 1px solid #edebe9;
-            text-align: left;
-        }
-        th {
-            background: #f8f6f4;
-            font-weight: 600;
-        }
-        .badge {
-            background: #eae4de;
-            padding: 2px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            display: inline-block;
-        }
-        .output-area {
-            background: #fcfaf8;
-            border-radius: 12px;
-            padding: 16px;
-            border: 1px solid #eae4de;
-            white-space: pre-wrap;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            max-height: 500px;
-            overflow-y: auto;
-            margin-top: 12px;
-        }
-        .tabs {
+        .ferramenta-wrapper .tabs {
             display: flex;
             gap: 4px;
-            margin-bottom: 16px;
             flex-wrap: wrap;
+            margin-bottom: 20px;
         }
-        .tab {
-            padding: 8px 16px;
-            background: #f0edea;
-            border-radius: 30px;
+        .ferramenta-wrapper .tab {
+            padding: 10px 22px;
+            background: #eef3f8;
+            border-radius: 40px;
             cursor: pointer;
-            font-size: 0.85rem;
             font-weight: 500;
-            transition: 0.2s;
+            font-size: 0.9rem;
             border: 1px solid transparent;
+            transition: 0.2s;
         }
-        .tab.active {
-            background: #a67c6b;
-            color: white;
-            border-color: #a67c6b;
+        .ferramenta-wrapper .tab.active {
+            background: #0a1a2f;
+            color: #fff;
+            border-color: #0a1a2f;
         }
-        .tab:hover:not(.active) {
-            background: #e4dbd4;
+        .ferramenta-wrapper .tab:hover:not(.active) {
+            background: #d9e2ea;
         }
         .tab-content {
             display: none;
@@ -190,108 +318,289 @@
         .tab-content.active {
             display: block;
         }
-        .flex-between {
+        .ferramenta-wrapper .output-area {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid #e1eaf0;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 450px;
+            overflow-y: auto;
+            margin-top: 16px;
+        }
+        .ferramenta-wrapper .btn {
+            background: #0a1a2f;
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .ferramenta-wrapper .btn:hover {
+            background: #1c3b5a;
+        }
+        .ferramenta-wrapper .btn-outline {
+            background: transparent;
+            color: #0a1a2f;
+            border: 2px solid #0a1a2f;
+        }
+        .ferramenta-wrapper .btn-outline:hover {
+            background: #0a1a2f;
+            color: #fff;
+        }
+        .ferramenta-wrapper .flex-row {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
+            align-items: center;
+            margin: 12px 0;
         }
-        .api-toggle {
-            background: #ecf0f1;
-            padding: 6px 12px;
+        .ferramenta-wrapper input, 
+        .ferramenta-wrapper select {
+            padding: 10px 14px;
+            border: 1px solid #d1d9e6;
+            border-radius: 40px;
+            background: #fafcff;
+            font-size: 0.95rem;
+        }
+        .ferramenta-wrapper .api-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* ----- CONTATO / FORMULÁRIO ----- */
+        #contato {
+            background: #fff;
+        }
+        .form-contato {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f8fafc;
+            padding: 40px 32px;
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.03);
+        }
+        .form-contato label {
+            display: block;
+            font-weight: 500;
+            margin: 14px 0 4px;
+        }
+        .form-contato input,
+        .form-contato textarea,
+        .form-contato select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d9e6;
+            border-radius: 40px;
+            font-size: 1rem;
+            background: #fff;
+        }
+        .form-contato textarea {
             border-radius: 20px;
-            font-size: 0.8rem;
+            min-height: 100px;
         }
-        .api-toggle input {
-            width: auto;
-            margin-right: 6px;
+        .form-contato .btn-enviar {
+            background: #0a1a2f;
+            color: #fff;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.2s;
         }
-        @media (max-width: 800px) {
-            .grid-2 {
+        .form-contato .btn-enviar:hover {
+            background: #1c3b5a;
+        }
+
+        /* ----- RODAPÉ ----- */
+        footer {
+            background: #0a1a2f;
+            color: #b0c4db;
+            padding: 30px 0;
+            text-align: center;
+        }
+        footer a {
+            color: #6fc3df;
+            text-decoration: none;
+        }
+
+        /* ----- RESPONSIVO ----- */
+        @media (max-width: 820px) {
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                gap: 12px;
+                padding: 16px 0;
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            #hero h1 {
+                font-size: 2.5rem;
+            }
+            .quem-grid {
                 grid-template-columns: 1fr;
             }
+        }
+        @media (max-width: 500px) {
+            #hero h1 { font-size: 2rem; }
+            .section-title { font-size: 1.8rem; }
+            .ferramenta-wrapper { padding: 16px; }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <header>
-        <h1>👗 Assistente de Moda</h1>
-        <p>Gerencie seu catálogo e chatbot de vendas com IA</p>
-    </header>
 
-    <div class="grid-2">
-        <!-- Coluna esquerda: configurações e produtos -->
-        <div>
-            <div class="card">
-                <h2>⚙️ Configurações da Loja</h2>
-                <label>Nome da Loja</label>
-                <input type="text" id="storeName" value="Estilo Único">
-                <label>WhatsApp</label>
-                <input type="text" id="whatsapp" value="(11) 99999-9999">
-                <div class="row">
-                    <div>
-                        <label>Faixa baixa (até R$)</label>
-                        <input type="number" id="priceLow" value="50">
-                    </div>
-                    <div>
-                        <label>Faixa alta (acima de R$)</label>
-                        <input type="number" id="priceHigh" value="120">
-                    </div>
+<!-- NAVEGAÇÃO FIXA -->
+<nav class="navbar">
+    <div class="container">
+        <div class="logo">Nova<span>Eng</span></div>
+        <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">&#9776;</button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#hero">Início</a></li>
+            <li><a href="#quem-somos">Quem Somos</a></li>
+            <li><a href="#solucoes">Soluções</a></li>
+            <li><a href="#diferencial">Diferencial</a></li>
+            <li><a href="#ferramenta">Ferramenta IA</a></li>
+            <li><a href="#contato" class="cta-nav">Orçamento</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+    <div class="container">
+        <h1>Engenharia que <span>transforma</span> processos</h1>
+        <p>Automação, visão computacional e controle inteligente para a Indústria 4.0.</p>
+        <a href="#contato" class="btn-hero">Solicite um Orçamento de Automação</a>
+    </div>
+</section>
+
+<!-- QUEM SOMOS -->
+<section id="quem-somos">
+    <div class="container">
+        <div class="quem-grid">
+            <div class="texto">
+                <h2 class="section-title">Quem Somos</h2>
+                <p><strong>NovaEng</strong> é uma startup de engenharia mecatrônica fundada por profissionais apaixonados por tecnologia e inovação. Combinamos experiência em projetos CAD, eletrônica embarcada, programação de CLPs e inteligência artificial para criar soluções que realmente agregam valor.</p>
+                <p>Nosso time é formado por engenheiros, desenvolvedores e pesquisadores com atitude empreendedora — estamos sempre em busca de desafios que exijam criatividade e precisão técnica.</p>
+                <div class="valores">
+                    <span>⚡ Inovação</span>
+                    <span>🔧 Excelência</span>
+                    <span>🤝 Parceria</span>
+                    <span>🌱 Sustentabilidade</span>
                 </div>
-                <label>Estilo do público</label>
-                <input type="text" id="style" value="Moda feminina jovem / Moda masculina urbana">
-                <label>Tom de voz (assistente)</label>
-                <input type="text" id="toneAssistant" value="Amigável, moderno e consultivo">
-                <label>Tom de voz (copywriter)</label>
-                <input type="text" id="toneCopy" value="Descontraído e elegante">
-                <label>Categorias (separadas por vírgula)</label>
-                <input type="text" id="categories" value="Camisetas, Calças, Vestidos, Casacos">
             </div>
-
-            <div class="card">
-                <h2>📦 Produtos</h2>
-                <div class="flex-between">
-                    <span style="font-size:0.9rem; color:#7f8c8d;" id="productCount">0 produtos</span>
-                    <button class="btn btn-sm btn-outline" onclick="addSampleProducts()">Carregar exemplos</button>
-                </div>
-                <table>
-                    <thead>
-                        <tr><th>Nome</th><th>Categoria</th><th>Preço</th><th>Ação</th></tr>
-                    </thead>
-                    <tbody id="productTableBody">
-                    </tbody>
-                </table>
-                <div style="margin-top:16px; display:grid; grid-template-columns:2fr 1fr 1fr 0.5fr; gap:8px; align-items:end;">
-                    <div><label style="margin:0;">Nome</label><input type="text" id="prodName" placeholder="Ex: Camiseta Básica"></div>
-                    <div><label style="margin:0;">Categoria</label><input type="text" id="prodCat" placeholder="Ex: Camisetas"></div>
-                    <div><label style="margin:0;">Preço (R$)</label><input type="number" id="prodPrice" placeholder="49.90"></div>
-                    <div><button class="btn btn-sm" onclick="addProduct()" style="margin-bottom:2px;">+</button></div>
-                </div>
-                <div style="margin-top:8px;">
-                    <label>Descrição curta</label>
-                    <input type="text" id="prodDesc" placeholder="Tecido 100% algodão, caimento solto">
-                </div>
+            <div class="imagem">
+                <span>🤖</span>
             </div>
         </div>
+    </div>
+</section>
 
-        <!-- Coluna direita: ações e saída -->
-        <div>
-            <div class="card">
-                <h2>🎯 Ações</h2>
-                <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-                    <button class="btn" onclick="runOption1()">🤖 Gerar Assistente (Opção 1)</button>
-                    <button class="btn" onclick="runOption2()">📄 Gerar Catálogo (Opção 2)</button>
-                    <button class="btn" onclick="runSchedule()">📅 Programação Semanal</button>
+<!-- SOLUÇÕES -->
+<section id="solucoes">
+    <div class="container">
+        <h2 class="section-title text-center">Nossas Soluções Mecatrônicas</h2>
+        <p class="section-sub text-center mx-auto">Capacidades técnicas para projetos de alto desempenho, desde a concepção até a implementação.</p>
+        <div class="solucoes-grid">
+            <div class="solucao-card">
+                <div class="icon">📐</div>
+                <h3>CAD 3D &amp; Simulação</h3>
+                <p>Projetos mecânicos e estruturais com modelagem paramétrica, análise de elementos finitos e otimização topológica.</p>
+            </div>
+            <div class="solucao-card">
+                <div class="icon">⚡</div>
+                <h3>Eletrônica Dedicada</h3>
+                <p>Desenvolvimento de hardware sob medida: PCBs, sensores, atuadores e sistemas embarcados com firmware otimizado.</p>
+            </div>
+            <div class="solucao-card">
+                <div class="icon">🧠</div>
+                <h3>Programação de CLP</h3>
+                <p>Lógica ladder, ST, e sistemas supervisórios (SCADA) para controle de máquinas e processos industriais.</p>
+            </div>
+            <div class="solucao-card">
+                <div class="icon">👁️</div>
+                <h3>Visão Computacional</h3>
+                <p>Inspeção automática, reconhecimento de padrões, medição dimensional e navegação autônoma com câmeras e IA.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DIFERENCIAL -->
+<section id="diferencial">
+    <div class="container">
+        <h2 class="section-title text-center">Inovação 4.0</h2>
+        <p class="section-sub text-center mx-auto">Como eliminamos desperdícios e elevamos a eficiência da sua operação.</p>
+        <div class="dif-grid">
+            <div class="dif-item">
+                <h4>⏱️ Redução de tempo</h4>
+                <p>Automatizamos tarefas repetitivas, diminuindo ciclos de produção em até 40%.</p>
+            </div>
+            <div class="dif-item">
+                <h4>🔍 Zero retrabalho</h4>
+                <p>Sistemas de inspeção por visão computacional garantem qualidade em tempo real.</p>
+            </div>
+            <div class="dif-item">
+                <h4>📊 Dados inteligentes</h4>
+                <p>Coletamos e analisamos dados para prever falhas e otimizar manutenções.</p>
+            </div>
+            <div class="dif-item">
+                <h4>🌿 Sustentabilidade</h4>
+                <p>Menos consumo de energia e matéria-prima com processos mais precisos.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FERRAMENTA DE PROMPTS (adaptada) -->
+<section id="ferramenta">
+    <div class="container">
+        <div class="ferramenta-wrapper">
+            <h2 style="margin-bottom:8px;">🧠 Assistente de Vendas Técnicas</h2>
+            <p style="color:#3a4a5f; margin-bottom:20px;">Gere propostas comerciais e catálogos de serviços com inteligência artificial. Use a simulação ou conecte com a API da OpenAI.</p>
+
+            <!-- Tabs -->
+            <div class="tabs" id="tabHeadersFerramenta">
+                <div class="tab active" data-tab="tabAssist">Assistente Comercial</div>
+                <div class="tab" data-tab="tabCatalogo">Catálogo Técnico</div>
+                <div class="tab" data-tab="tabProgramacao">Programação Semanal</div>
+            </div>
+
+            <!-- CONTEÚDO DAS TABS -->
+            <div id="tabAssist" class="tab-content active">
+                <div class="flex-row">
+                    <button class="btn" onclick="runAssistente()">🚀 Gerar Assistente (Opção 1)</button>
+                    <span style="font-size:0.9rem; color:#3a4a5f;">Simula um atendimento comercial com base nos serviços cadastrados.</span>
                 </div>
-                <div class="api-toggle">
-                    <input type="checkbox" id="useRealApi"> Usar API real (coloque sua chave abaixo)
-                    <input type="text" id="apiKey" placeholder="sk-..." style="width:200px; display:inline-block; margin-left:8px; padding:4px 8px; font-size:0.8rem;">
+                <div id="outputAssist" class="output-area">Clique no botão para gerar o prompt e a resposta simulada.</div>
+            </div>
+
+            <div id="tabCatalogo" class="tab-content">
+                <div class="flex-row">
+                    <button class="btn" onclick="runCatalogo()">📄 Gerar Catálogo (Opção 2)</button>
+                    <span style="font-size:0.9rem; color:#3a4a5f;">Estrutura um catálogo de serviços organizado por tipo, preço e combos.</span>
                 </div>
-                <div style="margin-top:12px;">
-                    <label>Dia da semana (para testar a programação)</label>
-                    <select id="daySelect">
+                <div id="outputCatalogo" class="output-area">Clique no botão para gerar o catálogo.</div>
+            </div>
+
+            <div id="tabProgramacao" class="tab-content">
+                <div class="flex-row">
+                    <select id="daySelectFerramenta" style="padding:10px 16px; border-radius:40px; border:1px solid #d1d9e6;">
                         <option value="0">Segunda</option>
                         <option value="1">Terça</option>
                         <option value="2">Quarta</option>
@@ -300,216 +609,168 @@
                         <option value="5">Sábado</option>
                         <option value="6">Domingo</option>
                     </select>
+                    <button class="btn" onclick="runProgramacao()">📅 Executar Tarefa do Dia</button>
                 </div>
+                <div id="outputProgramacao" class="output-area">Selecione o dia e clique para executar a tarefa programada.</div>
             </div>
 
-            <div class="card">
-                <h2>📝 Resultados</h2>
-                <div class="tabs" id="tabHeaders">
-                    <div class="tab active" data-tab="tab1">Assistente</div>
-                    <div class="tab" data-tab="tab2">Catálogo</div>
-                    <div class="tab" data-tab="tab3">Programação</div>
+            <!-- Configurações da ferramenta -->
+            <div style="margin-top:20px; border-top:1px solid #e1eaf0; padding-top:20px; display:flex; flex-wrap:wrap; gap:20px; align-items:center;">
+                <div>
+                    <label style="font-weight:500;">Nome da Empresa:</label>
+                    <input type="text" id="storeNameFerramenta" value="NovaEng" style="width:160px;">
                 </div>
-                <div id="tab1" class="tab-content active">
-                    <div id="output1" class="output-area">Clique em "Gerar Assistente" para ver o prompt completo e a simulação.</div>
+                <div>
+                    <label style="font-weight:500;">WhatsApp:</label>
+                    <input type="text" id="whatsappFerramenta" value="(11) 99999-9999" style="width:160px;">
                 </div>
-                <div id="tab2" class="tab-content">
-                    <div id="output2" class="output-area">Clique em "Gerar Catálogo" para ver o texto estruturado.</div>
-                </div>
-                <div id="tab3" class="tab-content">
-                    <div id="output3" class="output-area">Clique em "Programação Semanal" para executar a tarefa do dia selecionado.</div>
+                <div class="api-toggle">
+                    <input type="checkbox" id="useRealApiFerramenta"> Usar API real
+                    <input type="text" id="apiKeyFerramenta" placeholder="sk-..." style="width:180px; padding:8px 12px; border-radius:40px; border:1px solid #d1d9e6; margin-left:6px;">
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
+<!-- CONTATO / FORMULÁRIO DE LEADS -->
+<section id="contato">
+    <div class="container">
+        <h2 class="section-title text-center">Fale com a NovaEng</h2>
+        <p class="section-sub text-center mx-auto">Preencha o formulário e nossa equipe entrará em contato para entender seu projeto.</p>
+        <div class="form-contato">
+            <form id="formLead" onsubmit="enviarLead(event)">
+                <label for="nomeLead">Nome completo *</label>
+                <input type="text" id="nomeLead" required>
+
+                <label for="empresaLead">Empresa</label>
+                <input type="text" id="empresaLead">
+
+                <label for="emailLead">E-mail *</label>
+                <input type="email" id="emailLead" required>
+
+                <label for="telefoneLead">Telefone</label>
+                <input type="tel" id="telefoneLead">
+
+                <label for="interesseLead">Área de interesse</label>
+                <select id="interesseLead">
+                    <option value="">Selecione...</option>
+                    <option>CAD 3D / Simulação</option>
+                    <option>Eletrônica dedicada</option>
+                    <option>Programação de CLP</option>
+                    <option>Visão computacional</option>
+                    <option>Projeto completo</option>
+                </select>
+
+                <label for="mensagemLead">Mensagem</label>
+                <textarea id="mensagemLead" placeholder="Descreva brevemente seu desafio..."></textarea>
+
+                <button type="submit" class="btn-enviar">Enviar mensagem</button>
+            </form>
+            <div id="leadStatus" style="margin-top:16px; font-weight:500; color:#0a1a2f;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- RODAPÉ -->
+<footer>
+    <div class="container">
+        <p>© 2026 NovaEng – Engenharia Mecatrônica 4.0. &nbsp;|&nbsp; <a href="#hero">Início</a></p>
+    </div>
+</footer>
+
+<!-- ========== JAVASCRIPT ========== -->
 <script>
-    // =============================================
-    //  ESTADO
-    // =============================================
-    let products = [];
+    // ---- MENU MOBILE ----
+    function toggleMenu() {
+        document.getElementById('navLinks').classList.toggle('open');
+    }
 
-    // =============================================
-    //  ELEMENTOS DOM
-    // =============================================
-    const $ = id => document.getElementById(id);
-    const storeName = () => $('storeName').value.trim() || "Minha Loja";
-    const whatsapp = () => $('whatsapp').value.trim() || "(11) 99999-9999";
-    const priceLow = () => parseFloat($('priceLow').value) || 50;
-    const priceHigh = () => parseFloat($('priceHigh').value) || 120;
-    const style = () => $('style').value.trim() || "Moda feminina jovem";
-    const toneAssistant = () => $('toneAssistant').value.trim() || "Amigável, moderno e consultivo";
-    const toneCopy = () => $('toneCopy').value.trim() || "Descontraído e elegante";
-    const categories = () => $('categories').value.split(',').map(s => s.trim()).filter(Boolean);
-    const getDay = () => parseInt($('daySelect').value) || 0;
+    // ---- TABS DA FERRAMENTA ----
+    const tabHeaders = document.querySelectorAll('#tabHeadersFerramenta .tab');
+    const tabContents = {
+        tabAssist: document.getElementById('tabAssist'),
+        tabCatalogo: document.getElementById('tabCatalogo'),
+        tabProgramacao: document.getElementById('tabProgramacao')
+    };
 
-    // =============================================
-    //  PRODUTOS
-    // =============================================
-    function renderProducts() {
-        const tbody = $('productTableBody');
-        tbody.innerHTML = '';
-        products.forEach((p, i) => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${p.nome}</td>
-                <td><span class="badge">${p.categoria}</span></td>
-                <td>R$ ${p.preco.toFixed(2)}</td>
-                <td><button class="btn btn-sm btn-danger" onclick="removeProduct(${i})">✕</button></td>
-            `;
-            tbody.appendChild(tr);
+    tabHeaders.forEach(tab => {
+        tab.addEventListener('click', function() {
+            tabHeaders.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            const target = this.dataset.tab;
+            Object.keys(tabContents).forEach(key => {
+                tabContents[key].classList.toggle('active', key === target);
+            });
         });
-        $('productCount').textContent = `${products.length} produtos`;
-    }
+    });
 
-    function addProduct() {
-        const nome = $('prodName').value.trim();
-        const categoria = $('prodCat').value.trim();
-        const preco = parseFloat($('prodPrice').value);
-        const descricao = $('prodDesc').value.trim();
-        if (!nome || !categoria || isNaN(preco) || preco <= 0) {
-            alert('Preencha nome, categoria e preço válido.');
-            return;
+    // ---- DADOS DE SERVIÇOS (substituem os produtos de moda) ----
+    let servicos = [
+        { nome: 'Projeto Mecânico CAD 3D', categoria: 'CAD 3D', preco: 8500, descricao: 'Modelagem paramétrica, simulação cinemática e desenhos de fabricação.' },
+        { nome: 'Placa de Controle Embarcada', categoria: 'Eletrônica', preco: 4900, descricao: 'Desenvolvimento de PCB com microcontrolador, sensores e atuadores.' },
+        { nome: 'Programação CLP Siemens', categoria: 'CLP', preco: 6200, descricao: 'Lógica ladder, interface com IHM e integração com SCADA.' },
+        { nome: 'Sistema de Inspeção por Visão', categoria: 'Visão Computacional', preco: 11200, descricao: 'Reconhecimento de defeitos, medição dimensional e classificação.' },
+        { nome: 'Automação de Linha de Montagem', categoria: 'CLP', preco: 14500, descricao: 'Projeto completo de controle de esteiras, robôs e sensores.' },
+        { nome: 'Sensor Inteligente IoT', categoria: 'Eletrônica', preco: 3700, descricao: 'Dispositivo com conectividade WiFi, coleta de dados e alertas.' },
+        { nome: 'Simulação CFD para Refrigeração', categoria: 'CAD 3D', preco: 9500, descricao: 'Análise de fluidos e transferência de calor para otimização térmica.' },
+    ];
+
+    // ---- FUNÇÕES DE SIMULAÇÃO (sem API) ----
+    function simulateAssistente() {
+        if (servicos.length === 0) return '⚠️ Nenhum serviço cadastrado. Adicione serviços no array.';
+        let msg = `👋 Olá! Bem-vindo à NovaEng. Como posso ajudar seu projeto de automação?\n\n`;
+        msg += `Oferecemos soluções em: CAD 3D, Eletrônica, CLP e Visão Computacional.\n`;
+        msg += `Nossos serviços partem de R$ ${Math.min(...servicos.map(s => s.preco)).toFixed(2)}.\n\n`;
+        msg += `📌 Sugestão de pacote para linha de montagem:\n`;
+        const pacote = servicos.filter(s => s.categoria === 'CLP' || s.categoria === 'Eletrônica');
+        if (pacote.length >= 2) {
+            msg += `- ${pacote[0].nome}: R$ ${pacote[0].preco.toFixed(2)}\n`;
+            msg += `- ${pacote[1].nome}: R$ ${pacote[1].preco.toFixed(2)}\n`;
+            const total = pacote[0].preco + pacote[1].preco;
+            msg += `Total com desconto especial: R$ ${(total * 0.9).toFixed(2)}\n\n`;
         }
-        products.push({ nome, categoria, preco, descricao: descricao || 'Sem descrição' });
-        $('prodName').value = '';
-        $('prodCat').value = '';
-        $('prodPrice').value = '';
-        $('prodDesc').value = '';
-        renderProducts();
-    }
-
-    function removeProduct(index) {
-        products.splice(index, 1);
-        renderProducts();
-    }
-
-    function addSampleProducts() {
-        products = [
-            { nome: 'Camiseta Básica Algodão', categoria: 'Camisetas', preco: 49.90, descricao: 'Tecido 100% algodão penteado, caimento solto e toque macio.' },
-            { nome: 'Camiseta Estampa Tropical', categoria: 'Camisetas', preco: 79.90, descricao: 'Estampa vibrante com cores vivas, modelagem oversized.' },
-            { nome: 'Calça Jeans Skinny', categoria: 'Calças', preco: 139.90, descricao: 'Jeans com elastano, confortável e modela o corpo.' },
-            { nome: 'Calça Pantalona de Linho', categoria: 'Calças', preco: 189.90, descricao: 'Tecido leve e fluido, perfeita para dias quentes.' },
-            { nome: 'Vestido Floral Midi', categoria: 'Vestidos', preco: 159.90, descricao: 'Fundo preto com flores coloridas, cinto na cintura.' },
-            { nome: 'Casaco Tricot', categoria: 'Casacos', preco: 229.90, descricao: 'Lã mesclada, gola alta e toque aveludado.' },
-            { nome: 'Casaco Jeans Oversized', categoria: 'Casacos', preco: 259.90, descricao: 'Modelagem ampla, lavagem escura e botões prateados.' },
-        ];
-        renderProducts();
-    }
-
-    // =============================================
-    //  CONSTRUÇÃO DOS PROMPTS
-    // =============================================
-    function buildOption1Prompt() {
-        const prodList = products.map(p => `- ${p.nome} | Categoria: ${p.categoria} | Preço: R$ ${p.preco.toFixed(2)} | ${p.descricao}`).join('\n');
-        const cats = categories().join(', ');
-        return `Você é o assistente virtual de vendas da loja de roupas ${storeName()}. Seu objetivo é apresentar nosso catálogo aos clientes de forma organizada, ágil e persuasiva.
-
-Abaixo está a lista completa de produtos disponíveis:
-
-${prodList}
-
-Apresente as opções dividindo o catálogo estritamente nas seguintes categorias:
-
-- Tipo de Peça: ${cats}
-- Faixa de Preço: Até R$ ${priceLow()} | R$ ${priceLow()+1} a R$ ${priceHigh()} | Acima de R$ ${priceHigh()}
-- Conjuntos e Combinados: Conjuntos casuais, Moda trabalho, Outfits de Inverno
-
-Tom de voz: ${toneAssistant()}.
-Estilo do público: ${style()}.
-
-Instruções de interação:
-- Cumprimente o cliente brevemente e pergunte se ele prefere navegar por tipo de peça, faixa de preço ou se busca conjuntos prontos.
-- Sempre que sugerir um conjunto, mostre o preço individual de cada peça e o valor total do look.
-- Finalize com uma chamada para ação para fechar o pedido ou chamar no WhatsApp ${whatsapp()}.`;
-    }
-
-    function buildOption2Prompt() {
-        const prodList = products.map(p => `- ${p.nome} | Categoria: ${p.categoria} | Preço: R$ ${p.preco.toFixed(2)} | ${p.descricao}`).join('\n');
-        return `Atue como um copywriter de moda especialista em e-commerce. Crie a estrutura de texto para o catálogo da loja ${storeName()}, dividindo o conteúdo nas seções abaixo:
-
-Produtos disponíveis:
-${prodList}
-
-Seção 1: Por Tipo de Peça
-Organize por categorias (Partes de Cima, Partes de Baixo, Calçados). Para cada item, inclua um nome atraente, uma breve descrição de 1 frase ressaltando o tecido/caimento e o valor.
-
-Seção 2: Por Faixa de Preço
-Agrupe as peças em 3 categorias:
-- Achadinhos (Até R$ ${priceLow()})
-- Essenciais do Dia a Dia (De R$ ${priceLow()+1} a R$ ${priceHigh()})
-- Linha Premium / Destaques (Acima de R$ ${priceHigh()})
-
-Seção 3: Conjuntos e Looks Prontos
-Crie 3 sugestões de conjuntos completos (ex: 'Look Trabalho', 'Look Fim de Semana'). Liste as peças que compõem cada conjunto, o preço individual de cada item e o valor do look completo com um desconto especial de conjunto.
-
-Estilo dos produtos da loja: ${style()}.
-Tom de voz: ${toneCopy()}.`;
-    }
-
-    // =============================================
-    //  SIMULAÇÃO DE IA (quando não usa API real)
-    // =============================================
-    function simulateAssistant() {
-        if (products.length === 0) return "⚠️ Nenhum produto cadastrado. Adicione produtos primeiro.";
-        let msg = `👋 Olá! Bem-vindo à ${storeName()}! Como posso ajudar você hoje?\n\n`;
-        msg += `Temos as seguintes categorias: ${categories().join(', ')}.\n`;
-        msg += `Faixas de preço: até R$ ${priceLow()}, de R$ ${priceLow()+1} a R$ ${priceHigh()}, acima de R$ ${priceHigh()}.\n\n`;
-        msg += `📌 Sugestão de look casual:\n`;
-        const casual = products.filter(p => p.categoria === 'Camisetas' || p.categoria === 'Calças');
-        if (casual.length >= 2) {
-            const top = casual[0];
-            const bottom = casual[1];
-            msg += `- ${top.nome}: R$ ${top.preco.toFixed(2)}\n`;
-            msg += `- ${bottom.nome}: R$ ${bottom.preco.toFixed(2)}\n`;
-            msg += `Total do look: R$ ${(top.preco + bottom.preco).toFixed(2)}\n\n`;
-        }
-        msg += `💬 Gostou? Chame no WhatsApp ${whatsapp()} para fechar seu pedido!`;
+        msg += `💬 Gostou? Fale conosco pelo WhatsApp (11) 99999-9999 e solicite um orçamento.`;
         return msg;
     }
 
-    function simulateCatalog() {
-        if (products.length === 0) return "⚠️ Nenhum produto cadastrado.";
-        let text = `📋 CATÁLOGO - ${storeName()}\n\n`;
-        text += `🔹 POR TIPO DE PEÇA:\n`;
-        const cats = categories();
-        cats.forEach(cat => {
-            const items = products.filter(p => p.categoria === cat);
+    function simulateCatalogo() {
+        if (servicos.length === 0) return '⚠️ Nenhum serviço cadastrado.';
+        let text = `📋 CATÁLOGO DE SERVIÇOS - NovaEng\n\n`;
+        text += `🔹 POR TIPO DE SOLUÇÃO:\n`;
+        const categorias = ['CAD 3D', 'Eletrônica', 'CLP', 'Visão Computacional'];
+        categorias.forEach(cat => {
+            const items = servicos.filter(s => s.categoria === cat);
             if (items.length) {
                 text += `\n  ${cat.toUpperCase()}:\n`;
-                items.forEach(p => {
-                    text += `    • ${p.nome}: ${p.descricao} – R$ ${p.preco.toFixed(2)}\n`;
+                items.forEach(s => {
+                    text += `    • ${s.nome}: ${s.descricao} – R$ ${s.preco.toFixed(2)}\n`;
                 });
             }
         });
         text += `\n🔹 POR FAIXA DE PREÇO:\n`;
-        const low = products.filter(p => p.preco <= priceLow());
-        const mid = products.filter(p => p.preco > priceLow() && p.preco <= priceHigh());
-        const high = products.filter(p => p.preco > priceHigh());
-        if (low.length) { text += `\n  Achadinhos (até R$ ${priceLow()}):\n`; low.forEach(p => text += `    • ${p.nome} – R$ ${p.preco.toFixed(2)}\n`); }
-        if (mid.length) { text += `\n  Essenciais (R$ ${priceLow()+1} a R$ ${priceHigh()}):\n`; mid.forEach(p => text += `    • ${p.nome} – R$ ${p.preco.toFixed(2)}\n`); }
-        if (high.length) { text += `\n  Premium (acima de R$ ${priceHigh()}):\n`; high.forEach(p => text += `    • ${p.nome} – R$ ${p.preco.toFixed(2)}\n`); }
-        text += `\n🔹 LOOKS PRONTOS:\n`;
-        if (products.length >= 3) {
-            const look1 = products.slice(0,3);
-            text += `\n  Look Trabalho:\n`;
-            look1.forEach(p => text += `    • ${p.nome} – R$ ${p.preco.toFixed(2)}\n`);
-            const total = look1.reduce((s,p) => s + p.preco, 0);
-            text += `    Total com desconto: R$ ${(total * 0.9).toFixed(2)} (10% off)\n`;
-        } else {
-            text += `  Adicione mais produtos para criar combos.\n`;
+        const baixo = servicos.filter(s => s.preco <= 5000);
+        const medio = servicos.filter(s => s.preco > 5000 && s.preco <= 10000);
+        const alto = servicos.filter(s => s.preco > 10000);
+        if (baixo.length) { text += `\n  Soluções Acessíveis (até R$ 5.000):\n`; baixo.forEach(s => text += `    • ${s.nome} – R$ ${s.preco.toFixed(2)}\n`); }
+        if (medio.length) { text += `\n  Soluções Essenciais (R$ 5.001 a R$ 10.000):\n`; medio.forEach(s => text += `    • ${s.nome} – R$ ${s.preco.toFixed(2)}\n`); }
+        if (alto.length) { text += `\n  Soluções Premium (acima de R$ 10.000):\n`; alto.forEach(s => text += `    • ${s.nome} – R$ ${s.preco.toFixed(2)}\n`); }
+        text += `\n🔹 PACOTES COMBINADOS:\n`;
+        if (servicos.length >= 3) {
+            const pkg = servicos.slice(0,3);
+            text += `\n  Pacote Integração 4.0:\n`;
+            pkg.forEach(s => text += `    • ${s.nome} – R$ ${s.preco.toFixed(2)}\n`);
+            const total = pkg.reduce((acc, s) => acc + s.preco, 0);
+            text += `    Total com 15% de desconto: R$ ${(total * 0.85).toFixed(2)}\n`;
         }
         return text;
     }
 
-    // =============================================
-    //  EXECUÇÃO COM API REAL (opcional)
-    // =============================================
-    async function callRealAPI(systemPrompt, userMessage = "Gere o conteúdo solicitado.") {
-        const apiKey = $('apiKey').value.trim();
+    // ---- EXECUÇÃO DAS AÇÕES (com suporte a API real) ----
+    async function callRealAPI(systemPrompt, userMessage) {
+        const apiKey = document.getElementById('apiKeyFerramenta').value.trim();
         if (!apiKey) {
-            alert('Por favor, insira sua chave de API OpenAI no campo acima.');
+            alert('Insira sua chave de API OpenAI no campo correspondente.');
             return null;
         }
         try {
@@ -525,8 +786,8 @@ Tom de voz: ${toneCopy()}.`;
                         { role: 'system', content: systemPrompt },
                         { role: 'user', content: userMessage }
                     ],
-                    temperature: 0.7,
-                    max_tokens: 2000
+                    temperature: 0.6,
+                    max_tokens: 1500
                 })
             });
             if (!response.ok) {
@@ -541,111 +802,121 @@ Tom de voz: ${toneCopy()}.`;
         }
     }
 
-    // =============================================
-    //  AÇÕES PRINCIPAIS
-    // =============================================
-    async function runOption1() {
-        if (products.length === 0) {
-            alert('Adicione produtos primeiro!');
-            return;
-        }
-        const prompt = buildOption1Prompt();
-        const useReal = $('useRealApi').checked;
-        let result;
-        if (useReal) {
-            result = await callRealAPI(prompt, "Atue como assistente virtual e apresente o catálogo ao cliente.");
-            if (!result) return;
-        } else {
-            result = simulateAssistant();
-        }
-        const output = `=== PROMPT GERADO (Opção 1) ===\n\n${prompt}\n\n=== RESPOSTA DA IA ===\n\n${result}`;
-        $('output1').textContent = output;
-        switchTab('tab1');
+    function buildPromptAssistente() {
+        const servList = servicos.map(s => `- ${s.nome} | Categoria: ${s.categoria} | Preço: R$ ${s.preco.toFixed(2)} | ${s.descricao}`).join('\n');
+        return `Você é o assistente comercial da startup NovaEng, especializada em automação e mecatrônica. Apresente os serviços abaixo de forma organizada e persuasiva.
+
+Serviços disponíveis:
+${servList}
+
+Categorias: CAD 3D, Eletrônica, CLP, Visão Computacional.
+Faixas de preço: até R$ 5.000, de R$ 5.001 a R$ 10.000, acima de R$ 10.000.
+
+Tom de voz: técnico, consultivo e entusiasta.
+Público: engenheiros, gerentes de produção e empresários do setor industrial.
+
+Instruções:
+- Cumprimente o cliente e pergunte qual área de interesse.
+- Sempre que sugerir um pacote, mostre preços individuais e total com desconto.
+- Finalize com chamada para ação: WhatsApp (11) 99999-9999 ou formulário de contato.`;
     }
 
-    async function runOption2() {
-        if (products.length === 0) {
-            alert('Adicione produtos primeiro!');
-            return;
-        }
-        const prompt = buildOption2Prompt();
-        const useReal = $('useRealApi').checked;
-        let result;
-        if (useReal) {
-            result = await callRealAPI(prompt, "Gere o catálogo completo seguindo a estrutura solicitada.");
-            if (!result) return;
-        } else {
-            result = simulateCatalog();
-        }
-        const output = `=== PROMPT GERADO (Opção 2) ===\n\n${prompt}\n\n=== RESPOSTA DA IA ===\n\n${result}`;
-        $('output2').textContent = output;
-        switchTab('tab2');
+    function buildPromptCatalogo() {
+        const servList = servicos.map(s => `- ${s.nome} | Categoria: ${s.categoria} | Preço: R$ ${s.preco.toFixed(2)} | ${s.descricao}`).join('\n');
+        return `Atue como copywriter técnico para criar um catálogo de serviços da NovaEng.
+
+Serviços:
+${servList}
+
+Estruture em:
+1. Por categoria (CAD 3D, Eletrônica, CLP, Visão Computacional) – nome atrativo, descrição de 1 linha, preço.
+2. Por faixa de preço: Acessíveis (até R$ 5.000), Essenciais (R$ 5.001 a R$ 10.000), Premium (acima de R$ 10.000).
+3. Pacotes combinados: crie 3 sugestões de pacotes com peças individuais e desconto.
+
+Tom: profissional, claro e entusiasta.`;
     }
 
-    async function runSchedule() {
-        if (products.length === 0) {
-            alert('Adicione produtos primeiro!');
-            return;
+    async function runAssistente() {
+        const useReal = document.getElementById('useRealApiFerramenta').checked;
+        let result;
+        if (useReal) {
+            const prompt = buildPromptAssistente();
+            result = await callRealAPI(prompt, "Atue como assistente e apresente os serviços ao cliente.");
+            if (!result) return;
+        } else {
+            result = simulateAssistente();
         }
-        const day = getDay();
+        document.getElementById('outputAssist').textContent = result;
+        // ativa a tab
+        tabHeaders.forEach(t => t.classList.remove('active'));
+        document.querySelector('[data-tab="tabAssist"]').classList.add('active');
+        Object.keys(tabContents).forEach(key => tabContents[key].classList.toggle('active', key === 'tabAssist'));
+    }
+
+    async function runCatalogo() {
+        const useReal = document.getElementById('useRealApiFerramenta').checked;
+        let result;
+        if (useReal) {
+            const prompt = buildPromptCatalogo();
+            result = await callRealAPI(prompt, "Gere o catálogo completo seguindo a estrutura.");
+            if (!result) return;
+        } else {
+            result = simulateCatalogo();
+        }
+        document.getElementById('outputCatalogo').textContent = result;
+        tabHeaders.forEach(t => t.classList.remove('active'));
+        document.querySelector('[data-tab="tabCatalogo"]').classList.add('active');
+        Object.keys(tabContents).forEach(key => tabContents[key].classList.toggle('active', key === 'tabCatalogo'));
+    }
+
+    async function runProgramacao() {
+        const day = parseInt(document.getElementById('daySelectFerramenta').value);
         const dayNames = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
         const tasks = [
-            { prompt: 'option_2', desc: 'Catálogo completo' },
-            { prompt: 'option_2', desc: 'Looks prontos (Seção 3)' },
-            { prompt: 'option_2', desc: 'Ofertas (Seção 2)' },
-            { prompt: 'option_1', desc: 'Assistente - Categorias' },
-            { prompt: 'option_1', desc: 'Assistente - Fechamento' },
-            { prompt: 'option_2', desc: 'Achadinhos de Sábado' },
-            { prompt: 'option_2', desc: 'Planejamento próxima semana' },
+            'Gerar catálogo completo',
+            'Criar pacotes combinados',
+            'Ofertas especiais (faixa de preço)',
+            'Assistente – foco em CAD/CLP',
+            'Assistente – foco em Visão/Eletrônica',
+            'Destaques de fim de semana',
+            'Planejamento da próxima semana'
         ];
-        const task = tasks[day];
-        let prompt, result;
-        if (task.prompt === 'option_1') {
-            prompt = buildOption1Prompt();
-            const useReal = $('useRealApi').checked;
-            if (useReal) {
-                result = await callRealAPI(prompt, "Atue como assistente virtual e apresente o catálogo ao cliente.");
-                if (!result) return;
-            } else {
-                result = simulateAssistant();
-            }
+        const useReal = document.getElementById('useRealApiFerramenta').checked;
+        let result;
+        if (useReal) {
+            const prompt = (day % 2 === 0) ? buildPromptCatalogo() : buildPromptAssistente();
+            const msg = `Execute a tarefa: ${tasks[day]}. Use os dados da NovaEng.`;
+            result = await callRealAPI(prompt, msg);
+            if (!result) return;
         } else {
-            prompt = buildOption2Prompt();
-            const useReal = $('useRealApi').checked;
-            if (useReal) {
-                result = await callRealAPI(prompt, "Gere o catálogo completo seguindo a estrutura solicitada.");
-                if (!result) return;
-            } else {
-                result = simulateCatalog();
-            }
+            // simulação
+            result = `📅 Dia: ${dayNames[day]} – Tarefa: ${tasks[day]}\n\n`;
+            result += `✅ Simulação concluída com base nos serviços cadastrados.\n`;
+            result += `💡 Recomendação: gere um catálogo detalhado ou um roteiro de vendas personalizado.\n\n`;
+            result += `Serviços disponíveis: ${servicos.map(s => s.nome).join(', ')}.`;
         }
-        const output = `📅 Dia: ${dayNames[day]} – Tarefa: ${task.desc}\n\n=== PROMPT GERADO ===\n\n${prompt}\n\n=== RESPOSTA DA IA ===\n\n${result}`;
-        $('output3').textContent = output;
-        switchTab('tab3');
+        document.getElementById('outputProgramacao').textContent = result;
+        tabHeaders.forEach(t => t.classList.remove('active'));
+        document.querySelector('[data-tab="tabProgramacao"]').classList.add('active');
+        Object.keys(tabContents).forEach(key => tabContents[key].classList.toggle('active', key === 'tabProgramacao'));
     }
 
-    // =============================================
-    //  ABAS
-    // =============================================
-    function switchTab(tabId) {
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+    // ---- FORMULÁRIO DE LEAD ----
+    function enviarLead(e) {
+        e.preventDefault();
+        const nome = document.getElementById('nomeLead').value.trim();
+        const email = document.getElementById('emailLead').value.trim();
+        if (!nome || !email) {
+            document.getElementById('leadStatus').textContent = '⚠️ Preencha nome e e-mail.';
+            return;
+        }
+        // Simula envio
+        document.getElementById('leadStatus').innerHTML = '✅ Mensagem enviada! Em breve nossa equipe entrará em contato.';
+        document.getElementById('formLead').reset();
+        setTimeout(() => {
+            document.getElementById('leadStatus').textContent = '';
+        }, 5000);
     }
-
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-            const target = this.dataset.tab;
-            switchTab(target);
-        });
-    });
-
-    // =============================================
-    //  INICIALIZAÇÃO
-    // =============================================
-    // Carrega produtos de exemplo ao iniciar
-    addSampleProducts();
 </script>
 </body>
 </html>
